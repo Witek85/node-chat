@@ -20,15 +20,51 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
   var socket = io();
-  var el = document.getElementById('server-time');
+  // var el = document.getElementById('server-time');
+
+  var element = function(id){
+                return document.getElementById(id);
+            }
+
+            // Get Elements
+            var el = element('server-time');
+            var status = element('status');
+            var messages = element('messages');
+            var textarea = element('textarea');
+            var username = element('username');
+            var clearBtn = element('clear');
+
+            // Set default status
+            var statusDefault = status.textContent;
+
+            var setStatus = function(s){
+                // Set status
+                status.textContent = s;
+
+                if(s !== statusDefault){
+                    var delay = setTimeout(function(){
+                        setStatus(statusDefault);
+                    }, 4000);
+                }
+            }
 
       socket.on('time', function(timeString) {
         el.innerHTML = 'Server time: ' + timeString;
       });
 
-      socket.on('output', function(data){
+                socket.on('output', function(data){
                     console.log(data);
-                  });
+                    if(data.length){
+                        for(var x = 0;x < data.length;x++){
+                            // Build out message div
+                            var message = document.createElement('div');
+                            message.setAttribute('class', 'chat-message');
+                            message.textContent = data[x].name+": "+data[x].message;
+                            messages.appendChild(message);
+                            messages.insertBefore(message, messages.firstChild);
+                        }
+                    }
+                });
     </script>
   </body>
 </html>
