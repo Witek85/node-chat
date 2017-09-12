@@ -47,5 +47,41 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
             // Emit the messages
             socket.emit('output', res);
         });
+
+        socket.on('input', (data) => {
+            console.log('input')
+
+            let name = data.name;
+            let message = data.message;
+
+            // Check for name and message
+            if(name == '' || message == ''){
+                // Send error status
+                // sendStatus('Please enter a name and message');
+            } else {
+                // Insert message
+                chat.insert({name: name, message: message}, function(){
+                    io.emit('output', [data]);
+
+                    // Send status object
+                    // sendStatus({
+                    //     message: 'Message sent',
+                    //     clear: true
+                    // });
+                });
+            }
+
+        });
+
+        socket.on('clear', () => {
+            console.log('clear')
+            // chat.remove({}, function(){
+                // Emit cleared
+                socket.emit('cleared');
+            // });
+        });
+
+
+
         });
   });
