@@ -34,9 +34,10 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
         let chat = db.collection('chats');
 
         // Create function to send status
-        // sendStatus = function(s){
-        //     socket.emit('status', s);
-        // }
+
+        var sendStatus = (s) => {
+            socket.emit('status', s);
+        }
 
         // Get chats from mongo collection
         chat.find().limit(100).sort({_id:1}).toArray(function(err, res){
@@ -57,17 +58,17 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
             // Check for name and message
             if(name == '' || message == ''){
                 // Send error status
-                // sendStatus('Please enter a name and message');
+                sendStatus('Please enter a name and message');
             } else {
                 // Insert message
                 chat.insert({name: name, message: message}, function(){
                     io.emit('output', [data]);
 
                     // Send status object
-                    // sendStatus({
-                    //     message: 'Message sent',
-                    //     clear: true
-                    // });
+                    sendStatus({
+                        message: 'Message sent',
+                        clear: true
+                    });
                 });
             }
 
