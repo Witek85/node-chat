@@ -58,6 +58,7 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
             // Check for name and message
             if(name == '' || message == ''){
                 // Send error status
+                // socket.emit('status', 'Please enter a name and message');
                 sendStatus('Please enter a name and message');
             } else {
                 // Insert message

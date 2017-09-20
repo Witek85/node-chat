@@ -54,6 +54,7 @@
 
                     // Get Status From Server
                 socket.on('status', function(data){
+                  console.log('status',data);
                     // get message status
                     setStatus((typeof data === 'object')? data.message : data);
 
