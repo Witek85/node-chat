@@ -43,9 +43,9 @@
       <br/>
       <button id="send" class="btn btn-primary">Send</button>
       <br/>
-      <!-- <div id="status" class="alert alert-success"> -->
-        <!-- Message sent -->
-      <!-- </div> -->
+      <br/>
+      <div id="status"></div>
+       
     </div>
   </div>
 
@@ -53,7 +53,6 @@
   <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io();
-    // var el = document.getElementById('server-time');
 
     var element = function(id){
       return document.getElementById(id);
@@ -61,7 +60,7 @@
 
     // Get Elements
     var el = element('server-time');
-    var status = element('status');
+    var stat = element('status');
     var messages = element('messages');
     var textarea = element('textarea');
     var username = element('username');
@@ -76,18 +75,23 @@
     }
 
     // Set default status
-    var statusDefault = status.textContent;
+    var statusDefault = stat.textContent;
 
-    var setStatus = function(s){
-    // Set status
-    status.textContent = s;
+    var setStatus = function(message){
+      console.log('logstatus',message);
+      stat.setAttribute('class', 'alert alert-success');
+      stat.textContent = message;
 
-    if(s !== statusDefault){
-      var delay = setTimeout(function(){
-        setStatus(statusDefault);
-      }, 4000);
+      if(message !== statusDefault){
+        var delay = setTimeout(function(){
+          setStatus(statusDefault);
+          stat.className = '';
+        }, 2000);
+      }
+
     }
-    }
+
+    // TODO set status clear
 
     socket.on('time', function(timeString) {
       el.innerHTML = 'Server time: ' + timeString;
@@ -95,14 +99,11 @@
 
     // Get Status From Server
     socket.on('status', function(data){
-      console.log('status',data);
-        // get message status
-        setStatus((typeof data === 'object')? data.message : data);
-
-        // If status is clear, clear text
-        if(data.clear){
-            textarea.value = '';
-        }
+      
+      setStatus(data.message);
+      if(data.clear){
+          textarea.value = '';
+      }
     });
 
     socket.on('output', function(data){
@@ -124,7 +125,6 @@
         if(event.which === 13 && event.shiftKey == false){
             // Emit to server input
             sendMessage();
-
             event.preventDefault();
         }
     })
@@ -133,16 +133,17 @@
         sendMessage();
     });
 
-        // Handle Chat Clear
+    // Handle Chat Clear
     clearBtn.addEventListener('click', function(){
         socket.emit('clear');
     });
 
-                    // Clear Message
+    // Clear Message
     socket.on('cleared', function(){
       console.log('cleared');
       messages.textContent = '';
     });
+    
     </script>
   </body>
 </html>
