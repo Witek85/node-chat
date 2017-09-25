@@ -67,7 +67,7 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
 
                     // Send status object
                     sendStatus({
-                        message: 'Message sent',
+                        message: name + ' sent a message',
                         clear: true
                     });
                 });

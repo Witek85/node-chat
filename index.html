@@ -77,9 +77,9 @@
     // Set default status
     var statusDefault = stat.textContent;
 
-    var setStatus = function(message){
+    var setStatus = function(message, alertClass){
       console.log('logstatus',message);
-      stat.setAttribute('class', 'alert alert-success');
+      stat.setAttribute('class', alertClass);
       stat.textContent = message;
 
       if(message !== statusDefault){
@@ -100,7 +100,7 @@
     // Get Status From Server
     socket.on('status', function(data){
       
-      setStatus(data.message);
+      setStatus(data.message, 'alert alert-success');
       if(data.clear){
           textarea.value = '';
       }
@@ -141,9 +141,10 @@
     // Clear Message
     socket.on('cleared', function(){
       console.log('cleared');
+      setStatus('Chat cleared!','alert alert-danger');
       messages.textContent = '';
     });
-    
+
     </script>
   </body>
 </html>
