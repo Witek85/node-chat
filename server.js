@@ -77,10 +77,10 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
 
         socket.on('clear', () => {
             console.log('clear')
-            // chat.remove({}, function(){
+            chat.remove({}, function(){
                 // Emit cleared
                 socket.emit('cleared');
-            // });
+            });
         });
 
 

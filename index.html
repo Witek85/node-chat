@@ -24,10 +24,10 @@
 
     <div class="row">
       <div class="col-md-6">
-        <div id="chat" style="overflow-y: scroll; height:400px;">
+        <div id="chat" style="overflow-y: scroll;">
 
           <div class="card">
-            <div id="messages" class="card-block">
+            <div id="messages" class="card-block" style="height:400px;">
 
             </div>
           </div>
@@ -141,7 +141,7 @@
                     // Clear Message
     socket.on('cleared', function(){
       console.log('cleared');
-        // messages.textContent = '';
+      messages.textContent = '';
     });
     </script>
   </body>
