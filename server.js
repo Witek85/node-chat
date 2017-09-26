@@ -36,7 +36,7 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
         // Create function to send status
 
         var sendStatus = (s) => {
-            socket.emit('status', s);
+            io.emit('status', s);
         }
 
         // Get chats from mongo collection
@@ -46,7 +46,7 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
             }
 
             // Emit the messages
-            socket.emit('output', res);
+            io.emit('output', res);
         });
 
         socket.on('input', (data) => {
@@ -79,7 +79,7 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
             console.log('clear')
             chat.remove({}, function(){
                 // Emit cleared
-                socket.emit('cleared');
+                io.emit('cleared');
             });
         });
 
