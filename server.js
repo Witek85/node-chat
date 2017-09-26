@@ -46,7 +46,7 @@ mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', func
             }
 
             // Emit the messages
-            io.emit('output', res);
+            socket.emit('output', res);
         });
 
         socket.on('input', (data) => {
