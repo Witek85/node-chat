@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 
-mongo.connect('mongodb://witek85:base321!@ds155473.mlab.com:55473/webchat', function(err, db){
+mongo.connect('mongodb+srv://witek85:base321!@webchat.c0qi5.mongodb.net/webchat?retryWrites=true&w=majority', function(err, db){
     if(err){
         throw err;
     }
